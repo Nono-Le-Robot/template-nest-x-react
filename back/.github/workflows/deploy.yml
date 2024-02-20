@@ -1,0 +1,33 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        # Set DockerHub username and password in github actions variables
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: true
+        tags: DockerHub repo ex->username/repo-name:latest
+
+# ========== Use watchtower : ========== 
+# docker run -d   --name watchtower --restart=unless-stopped   -v /var/run/docker.sock:/var/run/docker.sock   containrrr/watchtower --interval  2 --cleanup
+# recupérer le fichier .env dans le container : 
+# docker run --name project-name -d -p 5555:5555 -p 3000:3000 -v /home/ubuntu/my-watching-base/back/.env:/project-dirname/.env username/project-name npm run start

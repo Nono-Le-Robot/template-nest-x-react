@@ -1,0 +1,6 @@
+FROM node:latest
+RUN git clone YOUR_PROJECT_GITHUB_LINK
+WORKDIR YOUR_ROOT_PROJECT_DIR
+RUN npm install
+EXPOSE PORT_TO_EXPOSE 
+# CMD ex npm run ...
